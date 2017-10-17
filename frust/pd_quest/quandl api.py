@@ -60,41 +60,12 @@ def mortgage():
     df = df.resample('M').mean()
     return  df
 
-def sp500_data():
-    df = quandl.get("YAHOO/INDEX_GSPC", trim_start="1975-01-01", authtoken="rWS-9gUcXQiPzziiq1oF")
-    df["Adjusted Close"] = (df["Adjusted Close"]-df["Adjusted Close"][0]) / df["Adjusted Close"][0] * 100.0
-    df=df.resample('M').mean()
-    df.rename(columns={'Adjusted Close':'sp500'}, inplace=True)
-    df = df['sp500']
-    return df
 
-def gdp_data():
-    df = quandl.get("BCB/4385", trim_start="1975-01-01", authtoken="rWS-9gUcXQiPzziiq1oF")
-    df["Value"] = (df["Value"]-df["Value"][0]) / df["Value"][0] * 100.0
-    df=df.resample('M').mean()
-    df.rename(columns={'Value':'GDP'}, inplace=True)
-    df = df['GDP']
-    return df
-
-def us_unemployment():
-    df = quandl.get("ECPI/JOB_G", trim_start="1975-01-01", authtoken="rWS-9gUcXQiPzziiq1oF")
-    df["Unemployment Rate"] = (df["Unemployment Rate"]-df["Unemployment Rate"][0]) / df["Unemployment Rate"][0] * 100.0
-    df=df.resample('1D').mean()
-    df=df.resample('M').mean()
-    return df
-
-
-
-m30 = mortgage()
-sp500 = sp500_data()
-gdp = gdp_data()
 HPI_Bench = HPI_benchmark()
-unemployment = us_unemployment()
+m30 = mortgage()
 HPI_data =pd.read_pickle('fifty_states_pct3.pickle')
 state_HPI_m30 = HPI_data.join(m30)
-HPI = HPI_Bench.join([m30,sp500,gdp,unemployment])
-HPI.dropna(inplace=True)
-print(HPI.corr())
+
 
 print(state_HPI_m30.corr()['m30'].describe( ))
 
