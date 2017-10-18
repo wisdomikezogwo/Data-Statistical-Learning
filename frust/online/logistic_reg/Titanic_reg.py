@@ -59,7 +59,10 @@ test = getting_dummies(test)
 
 train.drop(['Sex','Embarked','Ticket','Name','PassengerId'],axis=1,inplace=True)
 test.drop(['Sex','Embarked','Ticket','Name','PassengerId'],axis=1,inplace=True)
-
+# Not so helpful feature engineering in terms of precision
+#train['Family_Size']=train['SibSp']+train['Parch']
+#train['Fare_Per_Person']=train['Fare']/(train['Family_Size']+1)
+#print train.head()
 X = train.drop('Survived', axis=1)
 y = train['Survived']
 
