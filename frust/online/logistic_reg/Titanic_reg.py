@@ -72,6 +72,8 @@ model = LogisticRegression()
 model.fit(X_train,y_train)
 
 predict = model.predict(X_test)
+print(X_test.info())
+print(test.info())
 #predict1 = model.predict(test)
 
 print(classification_report(y_test,predict))
